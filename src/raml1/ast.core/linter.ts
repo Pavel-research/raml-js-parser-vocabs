@@ -769,6 +769,32 @@ var createLibraryIssue = function (attr:hl.IAttribute, hlNode:hl.IHighLevelNode)
     return createIssue1(messageRegistry.ISSUES_IN_THE_LIBRARY,
         { value : attr.value()}, hlNode, true);
 };
+
+function patchedValidation(node:hl.IAttribute,t:any){
+    var rt=node.property().range();
+    try{
+        var v:hl.ValidationIssue[]=[];
+        (<any>node.property())._nodeRange=t;
+        validate(<hl.IAttribute>node, {
+            begin(){
+
+            },
+            accept(e){
+                v.push(e);
+            },
+            acceptUnique(e){
+                v.push(e);
+            },
+            end(){
+
+            }
+        });
+        return v;
+    }
+    finally {
+        (<any>node.property())._nodeRange=rt;
+    }
+}
 export function validate(node:hl.IParseResult,v:hl.ValidationAcceptor){
     if (!node.parent()){
         try {
@@ -778,7 +804,18 @@ export function validate(node:hl.IParseResult,v:hl.ValidationAcceptor){
         }
     }
     if (node.isAttr()){
-        new CompositePropertyValidator().validate(<hl.IAttribute>node,v);
+        let cp=new CompositePropertyValidator();
+        if (node.property().range().isUnion()){
+            var vm=patchedValidation(node.asAttr(),node.property().range().union().leftType()).filter(x=>!x.isWarning);
+            var vm1=patchedValidation(node.asAttr(),node.property().range().union().rightType()).filter(x=>!x.isWarning);
+            if (vm.length>0&&vm1.length>0){
+                v.accept(createIssue("unionE","Please fix on of this problems: "+vm[0].message+";"+vm1[0].message,node,false,null,false));
+            }
+
+        }
+        else {
+           cp.validate(<hl.IAttribute>node, v);
+        }
     }
     else if (node.isElement()){
         if((<hlimpl.ASTNodeImpl>node).invalidSequence){
@@ -1516,7 +1553,7 @@ function isValidValueType(t:hl.ITypeDefinition,h:hl.IHighLevelNode, v:any,p:hl.I
                 return tm;
             }
             else if (tm instanceof Error){
-                tm.isWarning = true;
+                (<any>tm).isWarning = true;
                 if(!isJSONorXML) {
                     (<any>tm).canBeRef = true;
                 }
@@ -2316,7 +2353,7 @@ class DescriminatorOrReferenceValidator implements PropertyValidator{
                     cb.accept(createIssue2(<ValidationError>validation,node));
                 }
                 else {
-                    cb.accept(createIssue1(messageRegistry.SCHEMA_EXCEPTION, {msg:(<Error>validation).message}, node,validation.isWarning));
+                    cb.accept(createIssue1(messageRegistry.SCHEMA_EXCEPTION, {msg:(<Error>validation).message}, node,(<any>validation).isWarning));
                 }
                 validation = null;
             }
@@ -3006,7 +3043,7 @@ class NodeSpecificValidatorRegistryEntry implements NodeValidator {
  */
 class NodeSpecificValidator implements NodeValidator {
 
-    private static entries : NodeSpecificValidatorRegistryEntry[] = NodeSpecificValidator.createRegistry();
+    private static entries : NodeSpecificValidatorRegistryEntry[] = (<any>NodeSpecificValidator).createRegistry();
 
     private static createRegistry() : NodeSpecificValidatorRegistryEntry[] {
         var result: NodeSpecificValidatorRegistryEntry[] = [];

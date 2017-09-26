@@ -351,22 +351,40 @@ function toApi(unitOrHighlevel:ll.ICompilationUnit|hl.IHighLevelNode, options:pa
     var contents = unit.contents();
 
     var ramlFirstLine = hlimpl.ramlFirstLine(contents);
+    if (!ramlFirstLine){
+        ramlFirstLine=hlimpl.ramlFirstLine2(contents);
+        var verStr = ramlFirstLine[2];
+        var ramlFileType = ramlFirstLine[1];
+
+        var typeName;
+        var apiImpl;
+
+        var ramlVersion;
+        if (verStr == '0.8') {
+            ramlVersion='RAML08';
+        } else  {
+            ramlVersion='RAML10';
+        }
+    }
+    else{
+        var verStr = ramlFirstLine[1];
+        var ramlFileType = ramlFirstLine[2];
+
+        var typeName;
+        var apiImpl;
+
+        var ramlVersion;
+        if (verStr == '0.8') {
+            ramlVersion='RAML08';
+        } else  {
+            ramlVersion='RAML10';
+        }
+    }
     if(!ramlFirstLine){
         throw new Error(messageRegistry.INVALID_FIRST_LINE.message);
     }
 
-    var verStr = ramlFirstLine[1];
-    var ramlFileType = ramlFirstLine[2];
 
-    var typeName;
-    var apiImpl;
-
-    var ramlVersion;
-    if (verStr == '0.8') {
-        ramlVersion='RAML08';
-    } else if (verStr == '1.0') {
-        ramlVersion='RAML10';
-    }
 
     if (!ramlVersion) {
         throw new Error(messageRegistry.UNKNOWN_RAML_VERSION.message);

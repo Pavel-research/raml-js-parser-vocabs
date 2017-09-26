@@ -2187,6 +2187,22 @@ export var universeProvider = require("./definition-system/universeProvider");
 var getDefinitionSystemType = function (contents:string,ast:ll.ILowLevelASTNode) {
 
     var rfl = ramlFirstLine(contents);
+    let spec2=false;
+    if (!rfl){
+        spec2=true;
+        rfl=ramlFirstLine2(contents);
+        if (rfl){
+            var spec = (rfl && rfl[1])||"";
+            var version = (rfl && rfl.length > 2 && rfl[2]) || "1.0";
+            var localUniverse = new def.Universe(null,"RAML10", universeProvider(spec+version),"RAML10") ;
+            localUniverse.setOriginalTopLevelText(originalPType);
+            localUniverse.setTopLevel(spec);
+            localUniverse.setTypedVersion("1.0");//TODO make it better
+            // localUniverse.setDescription(spec);
+            return { ptype: spec, localUniverse: localUniverse };
+
+        }
+    }
     var spec = (rfl && rfl[1])||"";
     var ptype = (rfl && rfl.length > 2 && rfl[2]) || "Api";
     var originalPType = rfl && rfl.length > 2 && rfl[2];
@@ -2219,6 +2235,10 @@ var getDefinitionSystemType = function (contents:string,ast:ll.ILowLevelASTNode)
 
 export function ramlFirstLine(content:string):RegExpMatchArray{
     return content.match(/^\s*#%RAML\s+(\d\.\d)\s*(\w*)\s*$/m);
+}
+
+export function ramlFirstLine2(content:string):RegExpMatchArray{
+    return content.match(/^\s*#%RAML\s+(\w*)\s*(\d\.\d)\s*$/m);
 }
 
 export function getFragmentDefenitionName(highLevelNode: hl.IHighLevelNode): string {

@@ -95,7 +95,8 @@ export function findDeclarations(
     var skipAll = false;
 
     h.elements().forEach(x=> {
-        if (x.definition().key()== universes.Universe10.UsesDeclaration) {
+        var isUses=x.definition().key()== universes.Universe10.UsesDeclaration;
+        if (isUses) {
             if(skipAll) {
                 return;
             }
@@ -120,8 +121,10 @@ export function findDeclarations(
         else {
             rs.push(x);
         }
+        if (x.definition().getExtra("declarationRoot")){
+            findDeclarations(x,visitedUnits,rs);
+        }
     });
-
     return rs;
 
 }

@@ -155,8 +155,10 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
 
             }
             if (node.definition().hasUnionInHierarchy()){
-                if (true &&
-                    (node.parent() && node.property().nameId()==universes.Universe10.LibraryBase.properties.annotations.name)){
+                if (true
+                    //&&
+                //    (node.parent() && node.property().nameId()==universes.Universe10.LibraryBase.properties.annotations.name)
+                ){
                 var optins=getAllOptions(node.definition().unionInHierarchy());
                 var actualResult=null;
                 var bestResult=null;
@@ -377,6 +379,19 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
 
             if (p != null) {
                 var range = p.range();
+                if (range.hasUnionInHierarchy()){
+                   let lt=range.union().leftType();
+                   let rt=range.union().rightType();
+                   let isScalar= x.value()!=null && (typeof x.value()=='string'||typeof x.value()=='boolean'||typeof x.value()=='number');
+                   if (isScalar) {
+                       if (lt.isValueType()) {
+                            range=lt;
+                       }
+                       if (rt.isValueType()) {
+                            range=rt;
+                       }
+                   }
+                }
                 if (p.isAnnotation() && key != "annotations") {
                     var pi = new hlimpl.ASTPropImpl(x, aNode, range, p)
                     res.push(pi);
@@ -487,14 +502,17 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
 
                                 if (rng == "string" || rng == "number" || rng == "boolean") {
                                     if (!x.isAnnotatedScalar()){
-                                        attrNode.errorMessage = {
-                                            entry: messageRegistry.INVALID_PROPERTY_RANGE,
-                                            parameters: {
-                                                propName: p.groupName(),
-                                                range: rng
+                                        if (xChildren.length>0||!p.isMultiValue()) {
+
+
+                                            attrNode.errorMessage = {
+                                                entry: messageRegistry.INVALID_PROPERTY_RANGE,
+                                                parameters: {
+                                                    propName: p.groupName(),
+                                                    range: rng
+                                                }
                                             }
                                         }
-
                                         if (xChildren.length==0&&p.groupName()=="enum"){
                                             attrNode.errorMessage = {
                                                 entry: messageRegistry.ENUM_IS_EMPTY,
@@ -530,7 +548,7 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
                                 if (!c.allProperties().some(x=>{
                                         var srv=<def.Property>x;
                                         if (srv){
-                                            return srv.canBeValue()&&srv.isFromParentValue();
+                                            return srv.canBeValue()&&(srv.isFromParentValue()||x.nameId()=="type");
                                         }
                                         return false;
                                     }))
