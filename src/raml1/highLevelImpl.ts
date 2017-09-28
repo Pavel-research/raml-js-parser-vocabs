@@ -957,13 +957,17 @@ export interface ParseNode {
 
     kind(): number
 
-
+    getMeta(key:string): any
 }
 
 
 export class LowLevelWrapperForTypeSystem extends defs.SourceProvider implements ParseNode{
 
     private _toMerge:LowLevelWrapperForTypeSystem;
+
+    getMeta(key:string): any{
+        return null;
+    }
 
     private static CLASS_IDENTIFIER_LowLevelWrapperForTypeSystem = "highLevelImpl.LowLevelWrapperForTypeSystem";
 
@@ -2185,7 +2189,14 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
 
 export var universeProvider = require("./definition-system/universeProvider");
 var getDefinitionSystemType = function (contents:string,ast:ll.ILowLevelASTNode) {
-
+    if (defs.knows(contents)){
+        var firstLine = contents.split('\n')[0];
+        var u=defs.getUniverse(firstLine.trim());
+        var lu=new def.Universe(null,"RAML10",u)
+        lu.setTopLevel(u.getTopLevel());
+        lu.setTypedVersion("1.0")
+        return { ptype: u.getTopLevel(), localUniverse: lu };
+    }
     var rfl = ramlFirstLine(contents);
     let spec2=false;
     if (!rfl){

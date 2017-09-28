@@ -43,7 +43,7 @@ export function buildWrapperNode(node:hl.IHighLevelNode,setAsTopLevel:boolean=tr
         }
     }
     if (!wrapperConstructor){
-        wrapperConstructor = classMap["hl.BasicNode"]
+        wrapperConstructor = classMap["AnyType"]
 
     }
     return wrapperConstructor(node,setAsTopLevel);
