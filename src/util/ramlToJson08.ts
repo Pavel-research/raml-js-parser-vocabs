@@ -751,8 +751,8 @@ function serializeResourceTypes(_m:Array<RamlWrapper.ResourceType>, api:RamlWrap
                 var actions = serializeActions(resourceType.methods(), api, false);
                 var map = {};
                 actions.forEach(action =>{
-                    var name = ""+action.method;
-                    delete action.method;
+                    var name = ""+(<any>action).method;
+                    delete (<any>action).method;
                     if (Object.keys(action).length > 0)
                         map[name] = action;
                     else

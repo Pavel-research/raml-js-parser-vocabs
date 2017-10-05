@@ -12,7 +12,7 @@ describe('Extension API', function () {
     this.timeout(15000);
     it('Api', function (done) {
         var opt = apiLoader.loadApi(
-            path.resolve(__dirname,"./data/extensions/librarybooks_spain.raml"),
+            path.resolve(__dirname,"./data/extensions/librarybooks_spain.raml"),<any>
             { expandTraitsAndResourceTypes: false });
 
         // var opt = apiLoader.loadApi1(path.resolve(__dirname,"./data/helperTestApi.raml"));
@@ -29,7 +29,7 @@ describe('Extension API', function () {
         var pathToRes = overlay.highLevel().lowLevel().unit().absolutePath();
         var newPath = path.resolve(path.dirname(pathToRes), overlay.extends());
 
-        var opt2 = apiLoader.loadApi(newPath, { expandTraitsAndResourceTypes: false });
+        var opt2 = apiLoader.loadApi(newPath, <any>{ expandTraitsAndResourceTypes: false });
         assert(opt2.isDefined());
         assert(RamlWrapperImpl.ApiImpl.isInstance(opt2.getOrThrow()));
         var api2 = <RamlWrapper.Api>opt2.getOrThrow();

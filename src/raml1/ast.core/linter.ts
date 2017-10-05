@@ -1646,7 +1646,12 @@ class NormalValidator implements PropertyValidator{
                     e.getCode(), e.getMessage(), node, false)));
             }
         }
-
+        if(node.name()=="classTerm"&&node.parent().definition().nameId()=="NodeMapping"){
+            this.checkTerm(node, cb,"Class");
+        }
+        if(node.name()=="propertyTerm"&&node.parent().definition().nameId()=="PropertyMapping"){
+            this.checkTerm(node, cb,"Property");
+        }
         var v=cb;
         if (node.lowLevel().keyKind()!=yaml.Kind.SEQ) {
             var validation = isValid(pr.range(),node.parent(), vl, pr,node);
@@ -1786,6 +1791,29 @@ class NormalValidator implements PropertyValidator{
                             aValues: values.map(x=>`'${x}'`).join(", ")}, node));
                     }
                 }
+            }
+        }
+    }
+
+    private checkTerm(node:hl.IAttribute, cb: hl.ValidationAcceptor,name:string) {
+        if (search.globalDeclarations(node.parent()).filter(x => x.definition().nameId() == name).map(x => hlimpl.qName(x, node.parent())).indexOf(node.value()) == -1) {
+            let ex = node.root().element("external")
+            var keys: string[] = []
+            if (ex != null) {
+                ex.children().forEach(n => {
+                    keys.push(n.lowLevel().key());
+                })
+
+            }
+            var pref = "" + node.value();
+            let pdot = pref.indexOf('.');
+            if (pdot != -1) {
+                pref = pref.substring(0, pdot)
+                if (keys.indexOf(pref) == -1) {
+                    cb.accept(createIssue("classTerm", "Unknown entity: " + node.value(), node, false))
+                }
+
+                else cb.accept(createIssue("classTerm", "Referring to external entity: " + node.value(), node, true))
             }
         }
     }

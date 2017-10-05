@@ -1935,6 +1935,76 @@ export interface FragmentDeclaration extends Annotable{
 uses(  ):UsesDeclaration[]
 }
 
+export interface profileNode extends FragmentDeclaration{
+profile(  ):string
+
+description(  ):string
+
+extends(  ):string
+
+violation(  ):string[]
+
+info(  ):string[]
+
+warning(  ):string[]
+
+disabled(  ):string[]
+
+
+        /**
+         * Scalar properties annotations accessor
+         **/
+scalarsAnnotations(  ):profileNodeScalarsAnnotations
+}
+
+
+/**
+ * profileNode scalar properties annotations accessor
+ **/
+export interface profileNodeScalarsAnnotations{
+
+        /**
+         * profileNode.profile annotations
+         **/
+profile(  ):AnnotationRef[]
+
+
+        /**
+         * profileNode.description annotations
+         **/
+description(  ):AnnotationRef[]
+
+
+        /**
+         * profileNode.extends annotations
+         **/
+extends(  ):AnnotationRef[]
+
+
+        /**
+         * profileNode.violation annotations
+         **/
+violation(  ):AnnotationRef[][]
+
+
+        /**
+         * profileNode.info annotations
+         **/
+info(  ):AnnotationRef[][]
+
+
+        /**
+         * profileNode.warning annotations
+         **/
+warning(  ):AnnotationRef[][]
+
+
+        /**
+         * profileNode.disabled annotations
+         **/
+disabled(  ):AnnotationRef[][]
+}
+
 export interface LibraryBase extends FragmentDeclaration{
 
         /**
@@ -2914,6 +2984,15 @@ export function isResource(node: core.AbstractWrapperNode) : node is Resource {
  */
 export function isDocumentationItem(node: core.AbstractWrapperNode) : node is DocumentationItem {
     return node.kind() == "DocumentationItem" && node.RAMLVersion() == "RAML10";
+}
+
+
+/**
+ * Custom type guard for profileNode. Returns true if node is instance of profileNode. Returns false otherwise.
+ * Also returns false for super interfaces of profileNode.
+ */
+export function isprofileNode(node: core.AbstractWrapperNode) : node is profileNode {
+    return node.kind() == "profileNode" && node.RAMLVersion() == "RAML10";
 }
 
 

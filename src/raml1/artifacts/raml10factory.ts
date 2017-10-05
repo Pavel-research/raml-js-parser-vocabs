@@ -215,6 +215,8 @@ var classMap = {
 
     "ValueType": (x)=>{return new RamlWrapper.ValueTypeImpl(x)},
 
-    "XMLFacetInfo": (x,y)=>{return new RamlWrapper.XMLFacetInfoImpl(x,y)}
+    "XMLFacetInfo": (x,y)=>{return new RamlWrapper.XMLFacetInfoImpl(x,y)},
+
+    "profileNode": (x,y)=>{return new RamlWrapper.profileNodeImpl(x,y)}
 
 };

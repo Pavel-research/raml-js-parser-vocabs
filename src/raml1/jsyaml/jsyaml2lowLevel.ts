@@ -1133,7 +1133,7 @@ export class Project implements lowlevel.IProject{
         this.pathToUnit[apath]=unit;
 
         if(response) {
-            response.callback = contentHolder => {
+            (<any>response).callback = contentHolder => {
                 unit.updateContent(contentHolder && contentHolder.content);
             }
         }
@@ -3359,7 +3359,7 @@ export class ASTNode implements lowlevel.ILowLevelASTNode{
                     return [];
                 }
             }
-            throw new Error(linter.applyTemplate(messageRegistry.SHOULD_NEVER_HAPPEN_KIND,{kind:yaml.Kind[this._node.kind]}));
+            throw new Error(linter.applyTemplate(messageRegistry.SHOULD_NEVER_HAPPEN_KIND,{kind:yaml.Kind[<any>this._node.kind]}));
         }
         return []
     }

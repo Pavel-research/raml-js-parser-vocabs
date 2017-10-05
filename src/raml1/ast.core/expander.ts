@@ -808,7 +808,7 @@ export class ValueTransformer implements proxy.ValueTransformer{
                 var originalString = str.substring(i0,prev);
 
                 var val;
-                var paramName;
+                var paramName:string;
 
                 var transformers = getTransformersForOccurence(paramOccurence);
 

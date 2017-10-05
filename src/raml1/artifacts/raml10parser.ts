@@ -135,6 +135,8 @@ import Resource = pApi.Resource;
 import ResourceScalarsAnnotations = pApi.ResourceScalarsAnnotations;
 import DocumentationItem = pApi.DocumentationItem;
 import DocumentationItemScalarsAnnotations = pApi.DocumentationItemScalarsAnnotations;
+import profileNode = pApi.profileNode;
+import profileNodeScalarsAnnotations = pApi.profileNodeScalarsAnnotations;
 import Library = pApi.Library;
 import LibraryScalarsAnnotations = pApi.LibraryScalarsAnnotations;
 import Overlay = pApi.Overlay;
@@ -6510,6 +6512,263 @@ static isInstance( instance:any ):boolean{
 RAMLVersion(  ):string{return "RAML10";}
 }
 
+export class profileNodeImpl extends FragmentDeclarationImpl implements profileNode{
+constructor( protected nodeOrKey:hl.IHighLevelNode|string,protected setAsTopLevel:boolean=true ){super((typeof  nodeOrKey=="string")?createprofileNode(<string>nodeOrKey):<hl.IHighLevelNode>nodeOrKey,setAsTopLevel)}
+
+profile(  ):string{
+             return <string>super.attribute('profile', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set profile value
+         **/
+setProfile( param:string ){
+            this.highLevel().attrOrCreate("profile").setValue(""+param);
+            return this;
+        }
+
+description(  ):string{
+             return <string>super.attribute('description', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set description value
+         **/
+setDescription( param:string ){
+            this.highLevel().attrOrCreate("description").setValue(""+param);
+            return this;
+        }
+
+extends(  ):string{
+             return <string>super.attribute('extends', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set extends value
+         **/
+setExtends( param:string ){
+            this.highLevel().attrOrCreate("extends").setValue(""+param);
+            return this;
+        }
+
+violation(  ):string[]{
+             return <string[]>super.attributes('violation', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set violation value
+         **/
+setViolation( param:string ){
+            this.highLevel().attrOrCreate("violation").setValue(""+param);
+            return this;
+        }
+
+info(  ):string[]{
+             return <string[]>super.attributes('info', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set info value
+         **/
+setInfo( param:string ){
+            this.highLevel().attrOrCreate("info").setValue(""+param);
+            return this;
+        }
+
+warning(  ):string[]{
+             return <string[]>super.attributes('warning', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set warning value
+         **/
+setWarning( param:string ){
+            this.highLevel().attrOrCreate("warning").setValue(""+param);
+            return this;
+        }
+
+disabled(  ):string[]{
+             return <string[]>super.attributes('disabled', this.toString);
+         }
+
+
+        /**
+         * @hidden
+         * Set disabled value
+         **/
+setDisabled( param:string ){
+            this.highLevel().attrOrCreate("disabled").setValue(""+param);
+            return this;
+        }
+
+
+        /**
+         * @hidden
+         * @return Actual name of instance class
+         **/
+wrapperClassName(  ):string{return "profileNodeImpl";}
+
+
+        /**
+         * @return Actual name of instance interface
+         **/
+kind(  ):string{return "profileNode";}
+
+
+        /**
+         * @return Actual name of instance interface and all of its superinterfaces
+         **/
+allKinds(  ):string[]{return super.allKinds().concat("profileNode");}
+
+
+        /**
+         * @return Actual name of instance class and all of its superclasses
+         **/
+allWrapperClassNames(  ):string[]{return super.allWrapperClassNames().concat("RAML10.profileNodeImpl");}
+
+
+        /**
+         * @return Whether specified object is an instance of this class
+         **/
+static isInstance( instance:any ):boolean{
+        if(instance != null && instance.allWrapperClassNames
+            && typeof(instance.allWrapperClassNames) == "function"){
+
+            for (let currentIdentifier of instance.allWrapperClassNames()){
+                if(currentIdentifier == "RAML10.profileNodeImpl") return true;
+            }
+        }
+
+        return false;
+}
+
+
+        /**
+         * @return RAML version of the node
+         **/
+RAMLVersion(  ):string{return "RAML10";}
+
+
+        /**
+         * Scalar properties annotations accessor
+         **/
+scalarsAnnotations(  ):profileNodeScalarsAnnotationsImpl{return new profileNodeScalarsAnnotationsImpl(this.highLevel());}
+}
+
+
+/**
+ * profileNode scalar properties annotations accessor
+ **/
+export class profileNodeScalarsAnnotationsImpl implements profileNodeScalarsAnnotations{
+constructor( protected node:hl.IHighLevelNode ){}
+
+
+        /**
+         * profileNode.profile annotations
+         **/
+profile(  ):AnnotationRef[]{
+        var attr = this.node.attr("profile");
+        if(attr==null){
+          return [];
+        }
+        var annotationAttrs = attr.annotations();
+        var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+        return <AnnotationRef[]>result;
+}
+
+
+        /**
+         * profileNode.description annotations
+         **/
+description(  ):AnnotationRef[]{
+        var attr = this.node.attr("description");
+        if(attr==null){
+          return [];
+        }
+        var annotationAttrs = attr.annotations();
+        var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+        return <AnnotationRef[]>result;
+}
+
+
+        /**
+         * profileNode.extends annotations
+         **/
+extends(  ):AnnotationRef[]{
+        var attr = this.node.attr("extends");
+        if(attr==null){
+          return [];
+        }
+        var annotationAttrs = attr.annotations();
+        var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+        return <AnnotationRef[]>result;
+}
+
+
+        /**
+         * profileNode.violation annotations
+         **/
+violation(  ):AnnotationRef[][]{
+        var attrs = this.node.attributes("violation");
+        return <AnnotationRef[][]>attrs.map(x=>{
+            var annotationAttrs = x.annotations();
+            var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+            return result;
+        });
+}
+
+
+        /**
+         * profileNode.info annotations
+         **/
+info(  ):AnnotationRef[][]{
+        var attrs = this.node.attributes("info");
+        return <AnnotationRef[][]>attrs.map(x=>{
+            var annotationAttrs = x.annotations();
+            var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+            return result;
+        });
+}
+
+
+        /**
+         * profileNode.warning annotations
+         **/
+warning(  ):AnnotationRef[][]{
+        var attrs = this.node.attributes("warning");
+        return <AnnotationRef[][]>attrs.map(x=>{
+            var annotationAttrs = x.annotations();
+            var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+            return result;
+        });
+}
+
+
+        /**
+         * profileNode.disabled annotations
+         **/
+disabled(  ):AnnotationRef[][]{
+        var attrs = this.node.attributes("disabled");
+        return <AnnotationRef[][]>attrs.map(x=>{
+            var annotationAttrs = x.annotations();
+            var result = core.attributesToValues(annotationAttrs,(a:hl.IAttribute)=>new AnnotationRefImpl(a));
+            return result;
+        });
+}
+}
+
 export class LibraryBaseImpl extends FragmentDeclarationImpl implements LibraryBase{
 constructor( protected nodeOrKey:hl.IHighLevelNode|string,protected setAsTopLevel:boolean=true ){super((typeof  nodeOrKey=="string")?createLibraryBase(<string>nodeOrKey):<hl.IHighLevelNode>nodeOrKey,setAsTopLevel)}
 
@@ -7851,6 +8110,16 @@ function createResource(key:string){
 function createDocumentationItem(key:string){
     var universe=def.getUniverse("RAML10");
     var nc=<def.NodeClass>universe.type("DocumentationItem");
+    var node=stubs.createStubNode(nc,null,key);
+    return node;
+}
+
+/**
+ * @hidden
+ **/
+function createprofileNode(key:string){
+    var universe=def.getUniverse("RAML10");
+    var nc=<def.NodeClass>universe.type("profileNode");
     var node=stubs.createStubNode(nc,null,key);
     return node;
 }

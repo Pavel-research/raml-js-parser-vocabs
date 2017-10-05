@@ -223,7 +223,7 @@ export function getInstance():decl.LocalStorageFileSystem{
           }
 
           localStorageHelper.set(path, file);
-          deferred.resolve();
+          (<any>deferred).resolve();
 
         }, delay);
 
@@ -264,7 +264,7 @@ export function getInstance():decl.LocalStorageFileSystem{
               }
             });
 
-          deferred.resolve();
+          (<any>deferred).resolve();
         }, delay);
 
 
@@ -308,7 +308,7 @@ export function getInstance():decl.LocalStorageFileSystem{
           }
 
           localStorageHelper.remove(path);
-          deferred.resolve();
+          (<any>deferred).resolve();
         }, delay);
 
         return deferred.promise;
@@ -363,14 +363,14 @@ export function getInstance():decl.LocalStorageFileSystem{
             });
           }
 
-          deferred.resolve();
+          (<any>deferred).resolve();
         }, delay);
 
         return deferred.promise;
       };
       
       service.clear = function(){
-        localStorageHelper.clear();
+        (<any>localStorageHelper).clear();
       }
 
         // service.exportFiles = function exportFiles() {

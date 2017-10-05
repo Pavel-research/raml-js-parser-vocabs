@@ -380,7 +380,7 @@ export class LowLevelCompositeNode extends LowLevelProxyNode{
                 }
 
             }
-            this._valueOverride = val;
+            this._valueOverride = <any>val;
         }
         return val;
     }

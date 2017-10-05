@@ -365,7 +365,7 @@ describe('Parser searchProxy functions tests',function() {
             found.push(search.findDeclaration(unit, content.lastIndexOf(('lib.TypeFromLibrary')) + 6));
             
             try {
-                assert.equal(found[5].name(), 'TypeFromLibrary');
+                assert.equal((<any>found[5]).name(), 'TypeFromLibrary');
                 
                 done();
             } catch(exception) {

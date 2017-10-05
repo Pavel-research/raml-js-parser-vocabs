@@ -51,7 +51,7 @@ function findInsertionPointLowLevel(node:hl.IHighLevelNode,llnode: ll.ILowLevelA
         }
         //insertionPoint.show('Insertion');
     }
-    return insertionPoint;
+    return <any>insertionPoint;
 }
 
 

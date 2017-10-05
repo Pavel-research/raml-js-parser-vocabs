@@ -10,7 +10,7 @@ function doRequest(method, url, options) {
     request.open(method, url, false);
 
     request.onload = function () {
-        response = this.responseText;
+        response = (<any>this).responseText;
     };
 
     request.send();
@@ -26,8 +26,8 @@ export function readFromCacheOrGet(url:string){
         return v;
     }
     try {
-        var res = doRequest("GET", url, {timeout: 3000, socketTimeout: 5000, retry: true});
-        res = new Buffer(res.body.data).toString();
+        var res:any = doRequest("GET", url, {timeout: 3000, socketTimeout: 5000, retry: true});
+        res = new Buffer((<any>res).body.data).toString();
         cache[url] = res;
         return cache[url];
     } catch (e){

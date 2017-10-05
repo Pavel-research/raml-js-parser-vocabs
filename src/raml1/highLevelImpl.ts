@@ -2195,6 +2195,7 @@ var getDefinitionSystemType = function (contents:string,ast:ll.ILowLevelASTNode)
         var lu=new def.Universe(null,"RAML10",u)
         lu.setTopLevel(u.getTopLevel());
         lu.setTypedVersion("1.0")
+        lu.setUniverseVersion("RAML10");
         return { ptype: u.getTopLevel(), localUniverse: lu };
     }
     var rfl = ramlFirstLine(contents);
