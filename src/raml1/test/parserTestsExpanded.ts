@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/main.d.ts" />
 
-global.isExpanded = true;
+(<any>global).isExpanded = true;
 
 describe ("Tests with expanded APIs.", function () {
     this.timeout(15000);
